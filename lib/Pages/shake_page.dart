@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:sensors/sensors.dart';
+import 'package:vibration/vibration.dart';
 
 class ShakePage extends StatefulWidget {
   @override
@@ -31,6 +32,7 @@ class _ShakePageState extends State<ShakePage> {
       double acce = sqrt(x*x+y*y+z*z)-9.8;
       if (acce > SHAKE_THRESHOLD){
         //手机晃动了
+        Vibration.vibrate();
         _lastTime = now;
         if(!mounted) return;
         setState(() {
@@ -83,6 +85,7 @@ class _ShakePageState extends State<ShakePage> {
   if(!mounted) return;
   setState(() {
   _currentIndex = index;
+  isShaked = false;
   });
   },
   ),

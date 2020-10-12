@@ -34,7 +34,7 @@ dependencies:
   event_bus:
   barcode_scan: ^3.0.1
   sensors: ^0.4.2+5
-  vibrate:
+  vibration:
 
 
 dev_dependencies:

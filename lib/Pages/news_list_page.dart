@@ -15,14 +15,22 @@ class NewsListPage extends StatefulWidget {
 }
 
 class _NewsListPageState extends State<NewsListPage> {
-  bool isLogin = false;
+  bool isLogin;
   int currentPage = 1;
   List newsList = [];
+  ScrollController _controller = ScrollController();
 
   @override
   void initState() {
     // TODO: implement initState
-
+    _controller.addListener(() {
+      var maxScroll = _controller.position.maxScrollExtent;
+      var pixels = _controller.position.pixels;
+      if (maxScroll == pixels) {
+        currentPage ++;
+        getNewsList(true);
+      }
+    });
     DataUtils.isLogin().then((isLogin) {
       if (isLogin) {
         if (!mounted) return;
@@ -91,7 +99,10 @@ class _NewsListPageState extends State<NewsListPage> {
       getNewsList(false);
       return CupertinoActivityIndicator();
     };
-    return ListView.builder(itemBuilder: (context, index) {
+    return ListView.builder(
+        controller: _controller,
+        itemCount: newsList.length,
+        itemBuilder: (context, index) {
         return NewsListItem(
           newsList: newsList[index],
         );
